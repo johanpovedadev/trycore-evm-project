@@ -14,6 +14,8 @@ app = FastAPI(
 allowed_origins = [
     settings.frontend_url,
     "http://localhost:5173",
+    "http://localhost:5174",
+    "http://localhost:5180",
     "http://localhost:3000",
 ]
 
