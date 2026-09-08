@@ -32,7 +32,29 @@ Implementar un backend profesional que:
 - **Vite** - Build tool
 
 ### Infraestructura
-- **Docker Compose** - Orchestración local (PostgreSQL)
+- **Docker Compose** - Orchestración local (PostgreSQL en puerto 5434)
+
+## 🚀 Quick Start
+
+```bash
+# Terminal 1: Base de datos
+docker-compose up -d
+
+# Terminal 2: Backend (crear venv si es primera vez)
+cd backend
+python -m venv venv
+# Windows: venv\Scripts\activate
+# macOS/Linux: source venv/bin/activate
+pip install -r requirements.txt
+uvicorn app.main:app --reload
+
+# Terminal 3: Frontend
+cd frontend
+npm install
+npm run dev
+
+# Abrir en navegador: http://localhost:5180
+```
 
 ## 📁 Estructura del Proyecto
 
@@ -145,8 +167,9 @@ cp .env.example .env
 # Ajustar si es necesario (por defecto funciona con Docker)
 ```
 
-**Valores por defecto (.env.example):**
-- `DATABASE_URL`: `postgresql://trycore_user:trycore_password@localhost:5432/trycore_evm`
+**Valores por defecto (.env):**
+- `DATABASE_URL`: `postgresql://trycore_user:trycore_password@localhost:5434/trycore_evm`
+  - ⚠️ **IMPORTANTE:** Puerto 5434 (mapeado por docker-compose desde container 5432)
 - `FASTAPI_ENV`: `development`
 - `PORT`: `8000`
 - `FRONTEND_URL`: `http://localhost:5173`
