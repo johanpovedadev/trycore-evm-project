@@ -78,9 +78,14 @@ trycore-evm-project/
 ├── frontend/
 │   ├── src/
 │   │   ├── components/
-│   │   ├── pages/
+│   │   ├── styles/
 │   │   ├── App.tsx
-│   │   └── main.tsx
+│   │   ├── App.css
+│   │   ├── index.css
+│   │   ├── main.tsx
+│   │   ├── api.ts
+│   │   └── types.ts
+│   ├── dist/
 │   ├── index.html
 │   ├── package.json
 │   ├── tsconfig.json
@@ -171,8 +176,8 @@ cp .env.example .env
 - `DATABASE_URL`: `postgresql://trycore_user:trycore_password@localhost:5434/trycore_evm`
   - ⚠️ **IMPORTANTE:** Puerto 5434 (mapeado por docker-compose desde container 5432)
 - `FASTAPI_ENV`: `development`
-- `PORT`: `8000`
-- `FRONTEND_URL`: `http://localhost:5173`
+- `PORT`: `8000` (backend)
+- `FRONTEND_URL`: `http://localhost:5180` (frontend en puerto fijo vite)
 
 ## ▶️ Ejecución
 
@@ -193,10 +198,14 @@ uvicorn app.main:app --reload
 ```bash
 cd frontend
 
-# Desarrollo con Vite
+# Configurar variable de entorno (opcional - por defecto http://localhost:8000)
+echo "VITE_API_URL=http://localhost:8000" > .env.local
+
+# Desarrollo con Vite (puerto fijo 5180)
 npm run dev
 
-# Disponible en: http://localhost:5173
+# Disponible en: http://localhost:5180
+# (Puerto 5180 configurado en vite.config.ts con strictPort: true)
 ```
 
 #### Build para Producción
@@ -429,9 +438,27 @@ docker-compose restart postgres
 lsof -i :8000  # Ver proceso
 kill -9 <PID>  # Matar proceso
 
-# Frontend (5173)
-lsof -i :5173
+# Frontend (5180 - puerto fijo configurado)
+lsof -i :5180  # Ver proceso
+kill -9 <PID>  # Matar proceso
 ```
+
+### Puerto 8000 ocupado
+
+Si el puerto 8000 ya está en uso por otro proceso en tu máquina:
+
+```bash
+# Backend: usa un puerto alternativo
+uvicorn app.main:app --reload --port 8001
+
+# Frontend: actualiza VITE_API_URL para que coincida
+echo "VITE_API_URL=http://localhost:8001" > frontend/.env
+
+# Backend: agrega el nuevo origen del frontend al CORS si el puerto
+# del frontend también cambió (ver allow_origins en backend/app/main.py)
+```
+
+**Caso real:** Durante desarrollo, un backend de otro proyecto local ocupaba el puerto 8000. Solución: ejecutar en puerto 8001 y actualizar `VITE_API_URL`. Ver detalles en [AI_PROCESS.md](./AI_PROCESS.md).
 
 ### Tests fallan
 ```bash
