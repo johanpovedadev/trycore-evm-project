@@ -115,6 +115,11 @@ cd frontend
 
 # Instalar dependencias
 npm install
+
+# Configurar variable de entorno (opcional)
+# Por defecto: http://localhost:8000
+# Crear archivo .env.local si necesitas cambiar:
+echo "VITE_API_URL=http://localhost:8000" > .env.local
 ```
 
 ### Base de Datos
@@ -165,9 +170,24 @@ uvicorn app.main:app --reload
 ```bash
 cd frontend
 
+# Desarrollo con Vite
 npm run dev
 
 # Disponible en: http://localhost:5173
+```
+
+#### Build para Producción
+
+```bash
+cd frontend
+
+# Compilar TypeScript y bundlear con Vite
+npm run build
+
+# Salida: ./dist/
+
+# Verificar localmente la build
+npm run preview
 ```
 
 ### Base de Datos
@@ -305,14 +325,33 @@ main (producción)
   - [x] Documentación inicial
   - [x] Endpoint `/health`
 
+- [x] Fase 1: EVM Domain
+  - [x] Modelos de dominio (Project, Activity)
+  - [x] Cálculos EVM (CPI, SPI, EAC, VAC, CV, SV)
+  - [x] Validaciones edge cases
+
+- [x] Fase 2: Backend CRUD
+  - [x] CRUD Projects
+  - [x] CRUD Activities
+  - [x] Validaciones de negocio
+
+- [x] Fase 3: EVM Integration
+  - [x] Cálculo automático de indicadores
+
+- [x] Fase 4: Integration Testing
+  - [x] Tests unitarios (Services)
+  - [x] Tests de integración (Endpoints)
+
+- [x] Fase 5: Frontend Dashboard
+  - [x] Project Selector con Create
+  - [x] Activity Table con CRUD inline
+  - [x] Indicators Panel consolidados
+  - [x] Charts (PV/EV/AC)
+  - [x] API client con error handling
+
 ### ⏳ Pendiente
-- [ ] Fase 1: EVM Domain
-- [ ] Fase 2: Backend CRUD
-- [ ] Fase 3: EVM Integration
-- [ ] Fase 4: Integration Testing
-- [ ] Fase 5: Frontend Dashboard
-- [ ] Fase 6: Frontend Formularios
-- [ ] Fase 7: Visualizaciones
+- [ ] Fase 6: Frontend Refinement (si se requiere)
+- [ ] Fase 7: E2E Testing
 - [ ] Fase 8: Quality & Refactoring
 - [ ] Fase 9: Documentación Completa
 - [ ] Fase 10: Gitflow & Release
