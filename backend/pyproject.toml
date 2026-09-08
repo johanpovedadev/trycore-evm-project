@@ -1,0 +1,21 @@
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+exclude = [
+    ".git",
+    "__pycache__",
+    ".venv",
+    "venv",
+    "env",
+    ".egg",
+    ".pytest_cache",
+]
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "N"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+pythonpath = "."
+testpaths = ["tests"]
+addopts = "--tb=short -v"
